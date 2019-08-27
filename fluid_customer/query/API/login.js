@@ -30,7 +30,7 @@ function validateUser(phoneNumber){
             phone:phoneNumber
         },
 		dataType: 'json',
-		url: 'http://127.0.0.1:8000/auth/mobile',
+		url: 'https://2de59c4a.ngrok.io/auth/mobile',
 		success: function(jsondata){
 			// open customers page
 

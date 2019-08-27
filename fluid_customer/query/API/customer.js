@@ -13,10 +13,11 @@ function onWindowLoad(){
 		type: 'GET',
 		crossDomain: true,
 		dataType: 'json',
-		url: 'http://127.0.0.1:8000/profile/list/' + userdata.customer_phone,
+		url: 'https://2de59c4a.ngrok.io/profile/list/' + userdata.customer_phone,
 		success: function(jsondata){
-			updateUI(jsondata); // Update all UI for customers
-			CustomerUI(jsondata); // Data to be displayed and editted
+			console.log(jsondata.data)
+			updateUI(jsondata.data); // Update all UI for customers
+			CustomerUI(jsondata.data); // Data to be displayed and editted
 		},
 		error: function (request,status, error) {
             console.log("There was an error : ", error);
@@ -39,7 +40,7 @@ function UiEdit(){
 	$('input#input-birth').prop('disabled', nav);
 	$('input#input-idnumber').prop('disabled', nav);
 	$('textarea#aboutMe').prop('disabled', nav);
-	nav ? $('div#image_updater').css('display', 'none') : $('div#image_updater').css('display', 'block');
+	nav ? $('div#image_updater').css('display', 'none') : [$('div#image_updater').css('display', 'block')];
 	nav = !nav;
 }
 
@@ -64,11 +65,11 @@ function updateUI(jsondata){
 		'https://res.cloudinary.com/dolwj4vkq/image/upload/v1565367393/jade/profiles/user.jpg': jsondata.profileimage
 	$('img#round_profile').attr("src", image)
 	$('img#user_image').attr("src", image)
-	$('span#tokens').html(jsondata.loyalty.total_tokens);
+	$('span#tokens').html(jsondata.loyalty ? jsondata.loyalty.total_tokens : 0 );
 
 	$('div#store').html(jsondata.customer_store.storeLocation);
 	let tier_image;
-	switch (jsondata.loyalty.tier_group) {
+	switch (jsondata.loyalty ? jsondata.loyalty.tier_group : 1) {
 		case 1:
 			tier_image = '../assets/img/awards/jade_bronze.png';
 			$('div#tier_status').html("You are our Bronze Customer");
@@ -101,7 +102,7 @@ function CustomerUI(jsondata){
 	$('select#select-branch').val(jsondata.customer_store.store_id);
 	$('input#input-occupation').val(jsondata.occupation);
 	$('input#input-age').val(jsondata.age);
-	$('input#input-birth').val(jsondata.birthday.substr(0, 10));
+	$('input#input-birth').val(jsondata.birthday ? jsondata.birthday.substr(0, 10) : '');
 	$('input#input-idnumber').val(jsondata.idNumber);
 	$('textarea#aboutMe').val(jsondata.aboutme);
 }
@@ -143,7 +144,7 @@ function updateUserdetails(){
 		crossDomain: true,
 		dataType: 'json',
         data: customerData,
-		url: 'http://127.0.0.1:8000/profile/update/' + userdata.customer_phone,
+		url: 'https://2de59c4a.ngrok.io/profile/update/' + userdata.customer_phone,
 		success: function(updatedData){
 			window.location.reload(true);
 		},
@@ -161,36 +162,42 @@ $('a#logout').on('click',function(){
 
 $('input#file-upload').on('change', function(event){
 	const file = event.target.files[0];
-
 	const formData = new FormData();
 	formData.append('file', file);
 	formData.append('upload_preset', cloudinary_preset);
 
-	// $.ajax({
-	// 	type: 'POST',
-	// 	crossDomain: true,
-	// 	headers: {
-	// 		'Content_Type': 'application/x-www-form-urlencoded'
-	// 	},
-	// 	data: formData,
-	// 	url: cloudinary_url,
-	// 	success: function(jsondata){
-	// 		console.log(jsondata)
-	// 	},
-	// 	error: function (request,status, error) {
-    //         console.log("There was an upload error : ", error);
-    //     }
-	//  });
-
-	//  axios({
-	// 	method: 'post',
-	// 	crossDomain: true,
-	// 	headers: {
-	// 		'Content_Type': 'application/x-www-form-urlencoded'
-	// 	},
-	// 	data: formData,
-	// 	url: cloudinary_url,
-	//   }).then(function (response) {
-	// 	console.log(response)
-	//   });
+	$.ajax({
+		type: 'POST',
+		crossDomain: true,
+		data: formData,
+		processData: false,
+		contentType: false,
+		url: cloudinary_url,
+		success: function(jsondata){
+			console.log(jsondata)
+			imageUpdate(jsondata)
+		},
+		error: function (request,status, error) {
+            console.log("There was an upload error : ", error);
+        }
+	 });
 })
+
+function imageUpdate(imageData){
+	$.ajax({
+		type: 'POST',
+		crossDomain: true,
+		dataType: 'json',
+        data: {
+			profileimage: imageData.secure_url
+		},
+		url: 'https://2de59c4a.ngrok.io/profile/image/' + userdata.customer_phone,
+		success: function(updatedData){
+			window.location.reload(true);
+		},
+		error: function (request,status, error) {
+            console.log("There was an error : ", error);
+            alert(error);
+        }
+	 });
+}
