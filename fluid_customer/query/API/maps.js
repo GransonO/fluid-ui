@@ -8,7 +8,7 @@ function onWindowLoad(){
 		type: 'GET',
 		crossDomain: true,
 		dataType: 'json',
-		url: 'https://2de59c4a.ngrok.io/profile/list/' + userdata.customer_phone,
+		url: 'https://fluid-backend.herokuapp.com/profile/list/' + userdata.customer_phone,
 		success: function(jsondata){
 			updateUI(jsondata.data); // Update all UI for customers
 		},
