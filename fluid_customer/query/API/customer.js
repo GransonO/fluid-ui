@@ -146,7 +146,7 @@ function updateUserdetails(){
 		crossDomain: true,
 		dataType: 'json',
         data: customerData,
-		url: 'https://b2138601.ngrok.io/profile/update/' + userdata.customer_phone,
+		url: 'https://fluid-backend.herokuapp.com/profile/update/' + userdata.customer_phone,
 		success: function(updatedData){
 			window.location.reload(true);
 		},
@@ -193,7 +193,7 @@ function imageUpdate(imageData){
         data: {
 			profileimage: imageData.secure_url
 		},
-		url: 'https://b2138601.ngrok.io/profile/image/' + userdata.customer_phone,
+		url: 'https://fluid-backend.herokuapp.com/profile/image/' + userdata.customer_phone,
 		success: function(updatedData){
 			window.location.reload(true);
 		},
