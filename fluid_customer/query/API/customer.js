@@ -13,7 +13,7 @@ function onWindowLoad(){
 		type: 'GET',
 		crossDomain: true,
 		dataType: 'json',
-		url: 'https://b2138601.ngrok.io/profile/list/' + userdata.customer_phone,
+		url: 'https://fluid-backend.herokuapp.com/profile/list/' + userdata.customer_phone,
 		success: function(jsondata){
 			console.log(jsondata.data)
 			updateUI(jsondata.data); // Update all UI for customers
@@ -145,7 +145,7 @@ function updateUserdetails(){
 		crossDomain: true,
 		dataType: 'json',
         data: customerData,
-		url: 'https://b2138601.ngrok.io/profile/update/' + userdata.customer_phone,
+		url: 'https://fluid-backend.herokuapp.com/profile/update/' + userdata.customer_phone,
 		success: function(updatedData){
 			window.location.reload(true);
 		},
@@ -192,7 +192,7 @@ function imageUpdate(imageData){
         data: {
 			profileimage: imageData.secure_url
 		},
-		url: 'https://b2138601.ngrok.io/profile/image/' + userdata.customer_phone,
+		url: 'https://fluid-backend.herokuapp.com/profile/image/' + userdata.customer_phone,
 		success: function(updatedData){
 			window.location.reload(true);
 		},
