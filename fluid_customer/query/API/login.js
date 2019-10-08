@@ -30,7 +30,7 @@ function validateUser(phoneNumber){
             phone:phoneNumber
         },
 		dataType: 'json',
-		url: 'https://0bab949b.ngrok.io/auth/mobile',
+		url: 'https://fluid-backend.herokuapp.com/auth/mobile',
 		success: function(jsondata){
 			// open customers page
 
