@@ -13,7 +13,7 @@ function onWindowLoad(){
 		type: 'GET',
 		crossDomain: true,
 		dataType: 'json',
-		url: 'https://2de59c4a.ngrok.io/profile/list/' + userdata.customer_phone,
+		url: 'https://fluid-backend.herokuapp.com/profile/list/' + userdata.customer_phone,
 		success: function(jsondata){
 			console.log(jsondata.data)
 			updateUI(jsondata.data); // Update all UI for customers
@@ -121,9 +121,11 @@ function updateUserdetails(){
 	let branch = $('select#select-branch').val();
 	let occupation= $('input#input-occupation').val().trim();
 	let age = $('input#input-age').val().trim();
-	let birthday = $('input#input-birth').val().trim() + "T00:00:00Z";
+	let birthday = $('input#input-birth').val();
 	let idNumber = $('input#input-idnumber').val().trim();
 	let aboutme = $('textarea#aboutMe').val().trim();
+	birthday = birthday.length == 0 ? null : birthday.trim() + "T00:00:00Z";
+	console.log(birthday)
 
 	let customerData = {
 		customerName : (firstname.trim() + " " +lastname.trim()),
@@ -144,7 +146,7 @@ function updateUserdetails(){
 		crossDomain: true,
 		dataType: 'json',
         data: customerData,
-		url: 'https://2de59c4a.ngrok.io/profile/update/' + userdata.customer_phone,
+		url: 'https://fluid-backend.herokuapp.com/profile/update/' + userdata.customer_phone,
 		success: function(updatedData){
 			window.location.reload(true);
 		},
@@ -191,7 +193,7 @@ function imageUpdate(imageData){
         data: {
 			profileimage: imageData.secure_url
 		},
-		url: 'https://2de59c4a.ngrok.io/profile/image/' + userdata.customer_phone,
+		url: 'https://fluid-backend.herokuapp.com/profile/image/' + userdata.customer_phone,
 		success: function(updatedData){
 			window.location.reload(true);
 		},
