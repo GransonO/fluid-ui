@@ -45,7 +45,7 @@ function UiEdit(){
 }
 
 function navStatus(){
-	let btn_name = nav ? 'Edit' : 'Update';
+	let btn_name = nav ? 'Edit your details' : 'Update your details';
 	$('button#edit_btn').html(btn_name);
 	UiEdit();
 }
@@ -125,7 +125,6 @@ function updateUserdetails(){
 	let idNumber = $('input#input-idnumber').val().trim();
 	let aboutme = $('textarea#aboutMe').val().trim();
 	birthday = birthday.length == 0 ? null : birthday.trim() + "T00:00:00Z";
-	console.log(birthday)
 
 	let customerData = {
 		customerName : (firstname.trim() + " " +lastname.trim()),
