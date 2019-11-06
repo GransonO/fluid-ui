@@ -30,7 +30,7 @@ function validateUser(phoneNumber){
             phone:phoneNumber
         },
 		dataType: 'json',
-		url: 'https://fluid-backend.herokuapp.com/auth/mobile',
+		url: 'https://fluid-backend.herokuapp.com/auth/mobile/',
 		success: function(jsondata){
 			// open customers page
 			console.log("jsondata.data.result.status : ", jsondata.data.result.status);
