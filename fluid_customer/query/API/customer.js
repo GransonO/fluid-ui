@@ -13,7 +13,7 @@ function onWindowLoad(){
 		type: 'GET',
 		crossDomain: true,
 		dataType: 'json',
-		url: 'https://fluid-backend.herokuapp.com/profile/list/' + userdata.customer_phone,
+		url: 'https://fluid-backend.herokuapp.com/profile/single/' + userdata.customer_phone,
 		success: function(jsondata){
 			console.log(jsondata.data)
 			updateUI(jsondata.data); // Update all UI for customers
